@@ -1,6 +1,6 @@
 Name:		libbsd
 Version:	0.2.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 
@@ -89,6 +89,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.0-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Fri Jan 29 2010 Eric Smith <eric@brouhaha.com> - 0.2.0-3
 - changes based on review by Sebastian Dziallas
 
