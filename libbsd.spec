@@ -1,6 +1,6 @@
 Name:		libbsd
 Version:	0.3.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 
@@ -73,6 +73,9 @@ mv %{buildroot}%{_includedir}/nlist.h %{buildroot}%{_includedir}/bsd/
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
 %changelog
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Sat Oct 08 2011 Eric Smith <eric@brouhaha.com> - 0.3.0-1
 - Update to latest upstream release.
 - Removed Patch0, fixed upstream.
