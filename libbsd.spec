@@ -1,6 +1,6 @@
 Name:		libbsd
-Version:	0.3.0
-Release:	2%{?dist}
+Version:	0.4.1
+Release:	1%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 
@@ -28,11 +28,13 @@ Development files for the libbsd library.
 %setup -q
 
 # fix encoding of flopen.3 man page
-for f in src/flopen.3; do
+for f in man/flopen.3; do
   iconv -f iso8859-1 -t utf-8 $f >$f.conv
   touch -r $f $f.conv
   mv $f.conv $f
 done
+
+%configure
 
 %build
 make CFLAGS="%{optflags}" %{?_smp_mflags} \
@@ -47,13 +49,9 @@ make libdir=%{_libdir} \
      DESTDIR=%{buildroot} \
      install
 
-# don't want static library
+# don't want static library or libtool archive
 rm %{buildroot}%{_libdir}/%{name}.a
-
-# Move nlist.h into bsd directory to avoid conflict with elfutils-libelf.
-# Anyone that wants that functionality should really used elfutils-libelf
-# instead.
-mv %{buildroot}%{_includedir}/nlist.h %{buildroot}%{_includedir}/bsd/
+rm %{buildroot}%{_libdir}/%{name}.la
 
 %post -p /sbin/ldconfig
 
@@ -66,13 +64,15 @@ mv %{buildroot}%{_includedir}/nlist.h %{buildroot}%{_includedir}/bsd/
 %files devel
 %{_mandir}/man3/*.3.gz
 %{_mandir}/man3/*.3bsd.gz
-%{_includedir}/*.h
 %{_includedir}/bsd
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
 %changelog
+* Sun Jun 03 2012 Eric Smith <eric@brouhaha.com> - 0.4.1-1
+- Update to latest upstream release.
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
