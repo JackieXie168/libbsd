@@ -1,5 +1,5 @@
 Name:		libbsd
-Version:	0.4.1
+Version:	0.4.2
 Release:	1%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
@@ -26,13 +26,6 @@ Development files for the libbsd library.
 
 %prep
 %setup -q
-
-# fix encoding of flopen.3 man page
-for f in man/flopen.3; do
-  iconv -f iso8859-1 -t utf-8 $f >$f.conv
-  touch -r $f $f.conv
-  mv $f.conv $f
-done
 
 %configure
 
@@ -70,6 +63,10 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
 %changelog
+* Sun Jul 08 2012 Eric Smith <eric@brouhaha.com> - 0.4.2-1
+- Update to latest upstream release.
+- No longer need to change encoding of flopen(3) man page.
+
 * Sun Jun 03 2012 Eric Smith <eric@brouhaha.com> - 0.4.1-1
 - Update to latest upstream release.
 
