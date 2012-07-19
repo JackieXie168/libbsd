@@ -1,6 +1,6 @@
 Name:		libbsd
 Version:	0.4.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 
@@ -63,6 +63,9 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
 %changelog
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Sun Jul 08 2012 Eric Smith <eric@brouhaha.com> - 0.4.2-1
 - Update to latest upstream release.
 - No longer need to change encoding of flopen(3) man page.
