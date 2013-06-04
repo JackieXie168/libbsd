@@ -1,10 +1,10 @@
 Name:		libbsd
-Version:	0.4.2
-Release:	3%{?dist}
+Version:	0.5.1
+Release:	1%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 
-Source0:	http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.gz
+Source0:	http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
 
 License:	BSD and ISC and Copyright only and Public Domain
 Group:		System Environment/Libraries
@@ -63,6 +63,9 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
 %changelog
+* Tue Jun 04 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.5.1-1
+- Update to latest upstream release.
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.4.2-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
