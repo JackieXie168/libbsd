@@ -1,0 +1,12 @@
+diff -up libbsd-0.5.1/src/setproctitle.c.clearenv libbsd-0.5.1/src/setproctitle.c
+--- libbsd-0.5.1/src/setproctitle.c.clearenv	2013-06-06 14:01:44.372445400 -0600
++++ libbsd-0.5.1/src/setproctitle.c	2013-06-06 14:02:37.534419993 -0600
+@@ -59,7 +59,7 @@ spt_min(size_t a, size_t b)
+ static int
+ spt_clearenv(void)
+ {
+-#ifdef HAVE_CLEARENV
++#if 0 // was ifdef HAVE_CLEARENV, see Red Hat bug 971513
+ 	return clearenv();
+ #else
+ 	char **tmp;

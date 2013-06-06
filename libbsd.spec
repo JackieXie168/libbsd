@@ -1,13 +1,13 @@
 Name:		libbsd
 Version:	0.5.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
-
-Source0:	http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
-
 License:	BSD and ISC and Copyright only and Public Domain
 Group:		System Environment/Libraries
+
+Source0:	http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
+Patch0:		libbsd-0.5.1-clearenv.patch 
 
 %description
 libbsd provides useful functions commonly found on BSD systems, and
@@ -26,6 +26,7 @@ Development files for the libbsd library.
 
 %prep
 %setup -q
+%patch0 -p1 -b .clearenv
 
 %configure
 
@@ -63,6 +64,9 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
 %changelog
+* Thu Jun 06 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.5.1-2
+- Add patch to avoid calling clearenv() in setproctitle.c, bug #971513.
+
 * Tue Jun 04 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.5.1-1
 - Update to latest upstream release.
 
