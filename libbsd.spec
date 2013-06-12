@@ -1,11 +1,12 @@
 Name:		libbsd
 Version:	0.5.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 License:	BSD and ISC and Copyright only and Public Domain
 Group:		System Environment/Libraries
-
+# BuildRoot tag necessary for EL5 only:
+BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 Source0:	http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
 
 %description
@@ -34,7 +35,11 @@ make CFLAGS="%{optflags}" %{?_smp_mflags} \
      usrlibdir=%{_libdir} \
      exec_prefix=%{_prefix}
 
+%check
+make check
+
 %install
+rm -rf %{buildroot}   # necessary for EL5 only
 make libdir=%{_libdir} \
      usrlibdir=%{_libdir} \
      exec_prefix=%{_prefix} \
@@ -62,6 +67,10 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
 %changelog
+* Tue Jun 11 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.5.2-2
+- Added check section.
+- Add BuildRoot for EL5.
+
 * Mon Jun 10 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.5.2-1
 - Update to latest upstream release. Remove patch 0.
 
