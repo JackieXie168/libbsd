@@ -1,0 +1,40 @@
+diff -up libbsd-0.5.2/src/setproctitle.c.nosetproctitle libbsd-0.5.2/src/setproctitle.c
+--- libbsd-0.5.2/src/setproctitle.c.nosetproctitle	2013-07-07 21:26:04.407952595 -0600
++++ libbsd-0.5.2/src/setproctitle.c	2013-07-07 21:28:56.859945939 -0600
+@@ -1,3 +1,4 @@
++#define NO_SETPROCTITLE
+ /*
+  * Copyright © 2010 William Ahern
+  * Copyright © 2012-2013 Guillem Jover <guillem@hadrons.org>
+@@ -156,6 +157,7 @@ spt_copyargs(int argc, char *argv[])
+ static void
+ spt_init(int argc, char *argv[], char *envp[])
+ {
++#ifdef NO_SETPROCTITLE
+ 	char *base, *end, *nul, *tmp;
+ 	int i, envc, error;
+ 
+@@ -213,6 +215,7 @@ spt_init(int argc, char *argv[], char *e
+ 	SPT.nul  = nul;
+ 	SPT.base = base;
+ 	SPT.end  = end;
++#endif // NO_SETPROCTITLE
+ }
+ 
+ /*
+@@ -230,6 +233,7 @@ void (*spt_init_func)(int argc, char *ar
+ void
+ setproctitle_impl(const char *fmt, ...)
+ {
++#ifdef NO_SETPROCTITLE
+ 	/* Use buffer in case argv[0] is passed. */
+ 	char buf[SPT_MAXTITLE + 1];
+ 	va_list ap;
+@@ -279,6 +283,7 @@ setproctitle_impl(const char *fmt, ...)
+ 		*SPT.nul = ' ';
+ 		*++nul = '\0';
+ 	}
++#endif // NO_SETPROCTITLE
+ }
+ __asm__(".symver setproctitle_impl,setproctitle@@LIBBSD_0.5");
+ 

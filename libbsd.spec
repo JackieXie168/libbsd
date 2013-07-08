@@ -1,6 +1,6 @@
 Name:		libbsd
 Version:	0.5.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 License:	BSD and ISC and Copyright only and Public Domain
@@ -8,6 +8,7 @@ Group:		System Environment/Libraries
 # BuildRoot tag necessary for EL5 only:
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 Source0:	http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
+Patch0:		libbsd-0.5.2-nosetproctitle.patch     
 
 %description
 libbsd provides useful functions commonly found on BSD systems, and
@@ -26,6 +27,7 @@ Development files for the libbsd library.
 
 %prep
 %setup -q
+%patch0 -p1 -b .nosetproctitle
 
 %configure
 
@@ -67,6 +69,10 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
 %changelog
+* Sun Jul 07 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.5.2-3
+- Still having problems with setproctitle(), bug #981799, upstream
+  freedesktop.org bug #66679. Added patch to noop out setproctitle().
+
 * Tue Jun 11 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.5.2-2
 - Added check section.
 - Add BuildRoot for EL5.
