@@ -1,6 +1,6 @@
 Name:		libbsd
-Version:	0.5.2
-Release:	3%{?dist}
+Version:	0.6.0
+Release:	1%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 License:	BSD and ISC and Copyright only and Public Domain
@@ -8,7 +8,6 @@ Group:		System Environment/Libraries
 # BuildRoot tag necessary for EL5 only:
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 Source0:	http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
-Patch0:		libbsd-0.5.2-nosetproctitle.patch     
 
 %description
 libbsd provides useful functions commonly found on BSD systems, and
@@ -25,9 +24,21 @@ Requires:	pkgconfig
 %description devel
 Development files for the libbsd library.
 
+%package ctor-static
+Summary:	Development files for libbsd
+Group:		Development/Libraries
+Requires:	libbsd = %{version}-%{release}
+Requires:	pkgconfig
+
+%description ctor-static
+The libbsd-ctor static library is required if setproctitle() is to be used
+when libbsd is loaded via dlopen() from a threaded program.  This can be
+configured using "pkg-config --libs libbsd-ctor".
+# See the libbsd mailing list message by Guillem Jover on Jul 14 2013:
+#     http://lists.freedesktop.org/archives/libbsd/2013-July/000091.html
+
 %prep
 %setup -q
-%patch0 -p1 -b .nosetproctitle
 
 %configure
 
@@ -68,7 +79,15 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}.pc
 %{_libdir}/pkgconfig/%{name}-overlay.pc
 
+%files ctor-static
+%{_libdir}/%{name}-ctor.a
+%{_libdir}/pkgconfig/%{name}-ctor.pc
+
 %changelog
+* Sun Jul 14 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.6.0-1
+- Update to latest upstream release. Remove patch 0.
+- Added ctor-static subpackage.
+
 * Sun Jul 07 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.5.2-3
 - Still having problems with setproctitle(), bug #981799, upstream
   freedesktop.org bug #66679. Added patch to noop out setproctitle().
