@@ -1,6 +1,6 @@
 Name:		libbsd
 Version:	0.6.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 License:	BSD and ISC and Copyright only and Public Domain
@@ -84,6 +84,9 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-ctor.pc
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Sun Jul 14 2013 Eric Smith <brouhaha@fedoraproject.org> - 0.6.0-1
 - Update to latest upstream release. Remove patch 0.
 - Added ctor-static subpackage.
