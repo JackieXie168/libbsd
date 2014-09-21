@@ -40,9 +40,17 @@ hash/md5hl.c: $(srcdir)/hash/helper.c
 
 libbsd_la_DEPENDENCIES = \
 	libbsd.map
+
+if IS_DARWIN
+libbsd_la_LDFLAGS = \
+	-Wl \
+	-version-number $(LIBBSD_ABI)
+else
 libbsd_la_LDFLAGS = \
 	-Wl,--version-script=$(srcdir)/libbsd.map \
 	-version-number $(LIBBSD_ABI)
+endif
+
 libbsd_la_SOURCES = \
 	arc4random.c \
 	bsd_getopt.c \

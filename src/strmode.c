@@ -37,7 +37,11 @@ static char sccsid[] = "@(#)strmode.c	8.3 (Berkeley) 8/15/94";
 #include <string.h>
 
 void
+#if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
+bsd_strmode(mode, p)
+#else
 strmode(mode, p)
+#endif
 	mode_t mode;
 	char *p;
 {

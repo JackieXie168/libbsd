@@ -39,7 +39,9 @@
 #ifndef _LIBUTIL_H_
 #define _LIBUTIL_H_
 
+#ifdef HAVE_FEATURES_H
 #include <features.h>
+#endif
 #include <sys/cdefs.h>
 #include <sys/types.h>
 #include <stdint.h>

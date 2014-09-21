@@ -40,7 +40,7 @@ fi
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([sys/ndir.h sys/dir.h dir.h dirent.h])
+AC_CHECK_HEADERS([sys/ndir.h sys/dir.h dir.h dirent.h stdio_ext.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_UID_T
@@ -124,6 +124,31 @@ AC_LINK_IFELSE(
 	[AC_MSG_RESULT([no])])
 
 AC_CHECK_FUNCS([clearenv dirfd fopencookie __fpurge getexecname getline sysconf])
+
+HostOS=`echo "$host" | sed 's/.*-//'`
+os_is_macosx=false
+nonLinuxOS=false
+AC_SUBST(HostOS)
+case ${HostOS} in
+	darwin* | powerpc*-*-darwin* | freebsd* | netbsd* | openbsd*)
+		os_is_macosx=true
+		nonLinuxOS=true
+		echo HostOS="$HostOS"
+		;;
+	*)
+		echo host="$host"
+		echo HostOS="$HostOS"
+		os_is_macosx=false
+		nonLinuxOS=false
+		;;
+esac		
+AM_CONDITIONAL([IS_DARWIN], [test x$os_is_macosx = xtrue])
+AM_COND_IF([IS_DARWIN],
+	[AC_DEFINE([IS_DARWIN], [1], [Get HostOS Type is Darwin])])
+
+AM_CONDITIONAL([NON_LINUX], [test x$userdefine_gethostbyname_r = xtrue])
+AM_COND_IF([NON_LINUX],
+	[AC_DEFINE([NON_LINUX], [1], [Get HostOS Type])])
 
 AC_CONFIG_FILES([
 	Makefile

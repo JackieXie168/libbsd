@@ -26,9 +26,11 @@
 
 #include <errno.h>
 #include <stdio.h>
+#if HAVE___FPURGE
 #include <stdio_ext.h>
+#endif
 
-#ifdef HAVE___FPURGE
+#ifdef HAVE___FPURGE                   /* glibc >= 2.2, Haiku, Solaris >= 7 */
 int
 fpurge(FILE *fp)
 {
@@ -42,7 +44,37 @@ fpurge(FILE *fp)
 	return 0;
 }
 #else
-#error "Function fpurge() needs to be ported."
+#define fp_ fp
+//#error "Function fpurge() needs to be ported."
+//#elif HAVE_FPURGE                   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin 1.7 */
+int
+fpurge(FILE *fp)
+{
+	if (fp == NULL || fileno(fp) < 0) {
+		errno = EBADF;
+		return EOF;
+	}
+
+  /* Call the system's fpurge function.  */
+# undef fpurge
+# if !HAVE_DECL_FPURGE
+  extern int fpurge (FILE *);
+# endif
+  int result = fpurge (fp);
+# if defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+  if (result == 0)
+    /* Correct the invariants that fpurge broke.
+       <stdio.h> on BSD systems says:
+         "The following always hold: if _flags & __SRD, _w is 0."
+       If this invariant is not fulfilled and the stream is read-write but
+       currently reading, subsequent putc or fputc calls will write directly
+       into the buffer, although they shouldn't be allowed to.  */
+    if ((fp_->_flags & __SRD) != 0)
+      fp_->_w = 0;
+#endif
+  return result;
+}
+//#endif
 #endif
 
 #ifdef TEST

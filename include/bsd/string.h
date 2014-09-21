@@ -40,7 +40,11 @@ __BEGIN_DECLS
 size_t strlcpy(char *dst, const char *src, size_t siz);
 size_t strlcat(char *dst, const char *src, size_t siz);
 char *strnstr(const char *str, const char *find, size_t str_len);
+#if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
+void bsd_strmode(mode_t mode, char *str);
+#else
 void strmode(mode_t mode, char *str);
+#endif
 __END_DECLS
 
 #endif
