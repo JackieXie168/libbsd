@@ -1,6 +1,6 @@
 Name:		libbsd
 Version:	0.7.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Library providing BSD-compatible functions for portability
 URL:		http://libbsd.freedesktop.org/
 License:	BSD and ISC and Copyright only and Public Domain
@@ -84,6 +84,9 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-ctor.pc
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.7.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
