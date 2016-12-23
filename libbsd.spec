@@ -1,13 +1,14 @@
-Name:		libbsd
-Version:	0.8.3
-Release:	1%{?dist}
-Summary:	Library providing BSD-compatible functions for portability
-URL:		http://libbsd.freedesktop.org/
-License:	BSD and ISC and Copyright only and Public Domain
-Group:		System Environment/Libraries
+Name:           libbsd
+Version:        0.8.3
+Release:        2%{?dist}
+Summary:        Library providing BSD-compatible functions for portability
+URL:            http://libbsd.freedesktop.org/
+License:        BSD and ISC and Copyright only and Public Domain
+Group:          System Environment/Libraries
 # BuildRoot tag necessary for EL5 only:
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
-Source0:	http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
+BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+Source0:        http://libbsd.freedesktop.org/releases/libbsd-%{version}.tar.xz
+Patch1:         %{name}-%{version}-deprecated.patch
 
 %description
 libbsd provides useful functions commonly found on BSD systems, and
@@ -16,19 +17,19 @@ projects with strong BSD origins, without needing to embed the same
 code over and over again on each project.
 
 %package devel
-Summary:	Development files for libbsd
-Group:		Development/Libraries
-Requires:	libbsd = %{version}-%{release}
-Requires:	pkgconfig
+Summary:        Development files for libbsd
+Group:          Development/Libraries
+Requires:       libbsd = %{version}-%{release}
+Requires:       pkgconfig
 
 %description devel
 Development files for the libbsd library.
 
 %package ctor-static
-Summary:	Development files for libbsd
-Group:		Development/Libraries
-Requires:	libbsd = %{version}-%{release}
-Requires:	pkgconfig
+Summary:        Development files for libbsd
+Group:          Development/Libraries
+Requires:       libbsd = %{version}-%{release}
+Requires:       pkgconfig
 
 %description ctor-static
 The libbsd-ctor static library is required if setproctitle() is to be used
@@ -39,6 +40,7 @@ configured using "pkg-config --libs libbsd-ctor".
 
 %prep
 %setup -q
+%patch1 -p1 -b .deprecated
 
 %configure
 
@@ -85,6 +87,10 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-ctor.pc
 
 %changelog
+* Fri Dec 23 2016 Eric Smith <brouhaha@fedoraproject.org> - 0.8.3-2
+- Add patch for GCC deprecated attribute to allow building on GCC < 4.5
+  (needed for EL5 and EL6).
+
 * Thu Dec 22 2016 Eric Smith <brouhaha@fedoraproject.org> - 0.8.3-1
 - Update to latest upstream release.
 
