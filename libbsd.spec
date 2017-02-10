@@ -1,6 +1,6 @@
 Name:           libbsd
 Version:        0.8.3
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Library providing BSD-compatible functions for portability
 URL:            http://libbsd.freedesktop.org/
 License:        BSD and ISC and Copyright only and Public Domain
@@ -87,6 +87,9 @@ rm %{buildroot}%{_libdir}/%{name}.la
 %{_libdir}/pkgconfig/%{name}-ctor.pc
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.8.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Fri Dec 23 2016 Eric Smith <brouhaha@fedoraproject.org> - 0.8.3-2
 - Add patch for GCC deprecated attribute to allow building on GCC < 4.5
   (needed for EL5 and EL6).
