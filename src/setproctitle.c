@@ -32,6 +32,11 @@
 #include <unistd.h>
 #include <string.h>
 
+#if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
+#define __asm__(x)
+extern char **environ;
+#endif
+
 static struct {
 	/* Original value. */
 	const char *arg0;
@@ -287,7 +292,11 @@ __asm__(".symver setproctitle_impl,setproctitle@@LIBBSD_0.5");
  * for code linking against that version, and change the default to use the
  * new version, so that new code depends on the implemented version. */
 #ifdef HAVE_TYPEOF
+#if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
+extern typeof(setproctitle_impl) setproctitle_stub __attribute__((weak, alias("setproctitle_impl")));
+#else
 extern typeof(setproctitle_impl) setproctitle_stub __attribute__((alias("setproctitle_impl")));
+#endif
 #else
 void setproctitle_stub(const char *fmt, ...)
 	__attribute__((alias("setproctitle_impl")));

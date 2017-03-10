@@ -30,7 +30,9 @@
 #include <sys/types.h>
 #include <string.h>
 
+#if !defined(darwin) && !defined(__APPLE__) && !defined(MACOSX)
 #include "local-link.h"
+#endif
 
 #ifdef HAVE_GETLINE
 struct filebuf {
@@ -75,9 +77,11 @@ fgetln(FILE *stream, size_t *len)
 		return fb->buf;
 	}
 }
+#if !defined(darwin) && !defined(__APPLE__) && !defined(MACOSX)
 libbsd_link_warning(fgetln,
                     "This functions cannot be safely ported, use getline(3) "
                     "instead, as it is supported by GNU and POSIX.1-2008.")
+#endif
 #else
 #error "Function fgetln() needs to be ported."
 #endif
