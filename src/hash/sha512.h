@@ -29,7 +29,11 @@
 #ifndef _SHA512_H_
 #define _SHA512_H_
 
+#if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
+#include <stdint.h>
+#else
 #include <sys/types.h>
+#endif
 
 #define SHA512_DIGEST_LENGTH		64
 

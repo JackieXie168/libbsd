@@ -28,9 +28,7 @@
 #include "getentropy_linux.c"
 #elif defined(__GNU__)
 #include "getentropy_hurd.c"
-#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-#include "getentropy_bsd.c"
-#elif defined(__NetBSD__)
+#elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__)
 #include "getentropy_bsd.c"
 #elif defined(__sun)
 #include "getentropy_solaris.c"
