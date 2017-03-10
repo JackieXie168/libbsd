@@ -137,6 +137,7 @@ funopen(const void *cookie,
 
 	return fopencookie(cookiewrap, mode, funcswrap);
 }
+#elif defined(darwin) || defined(__APPLE__) || defined(MACOSX)
 #else
 #error "Function funopen() needs to be ported."
 #endif

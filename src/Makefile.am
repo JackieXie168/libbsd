@@ -51,19 +51,21 @@ hash/md5hl.c: $(srcdir)/hash/helper.c
 libbsd_la_DEPENDENCIES = \
 	$(libbsd_la_included_sources) \
 	libbsd.map
+
+if IS_DARWIN
+libbsd_la_LDFLAGS = \
+	-Wl \
+	-version-number $(LIBBSD_ABI)
+else
 libbsd_la_LDFLAGS = \
 	-Wl,--version-script=$(srcdir)/libbsd.map \
 	-version-number $(LIBBSD_ABI)
+endif
+
 libbsd_la_SOURCES = \
 	arc4random.c \
-	arc4random.h \
-	arc4random_bsd.h \
-	arc4random_linux.h \
-	arc4random_unix.h \
-	arc4random_openbsd.h \
 	arc4random_uniform.c \
 	bsd_getopt.c \
-	chacha_private.h \
 	closefrom.c \
 	dehumanize_number.c \
 	err.c \
@@ -115,6 +117,15 @@ libbsd_la_SOURCES += \
 	getentropy.c \
 	$(nil)
 endif
+
+noinst_HEADERS = \
+	arc4random.h \
+	arc4random_bsd.h \
+	arc4random_linux.h \
+	arc4random_unix.h \
+	arc4random_osx.h \
+	arc4random_openbsd.h \
+	chacha_private.h
 
 libbsd_ctor_a_SOURCES = \
 	setproctitle_ctor.c \
