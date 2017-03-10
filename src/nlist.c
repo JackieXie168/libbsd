@@ -27,6 +27,7 @@
  * SUCH DAMAGE.
  */
 
+#if !defined(darwin) && !defined(__APPLE__) && !defined(MACOSX)
 #if defined(LIBC_SCCS) && !defined(lint)
 static char sccsid[] = "@(#)nlist.c	8.1 (Berkeley) 6/4/93";
 #endif /* LIBC_SCCS and not lint */
@@ -408,3 +409,4 @@ elf_sym_to_nlist(struct nlist *nl, Elf_Sym *s, Elf_Shdr *shdr, int shnum)
 		nl->n_type |= N_EXT;
 }
 #endif /* _NLIST_DO_ELF */
+#endif
