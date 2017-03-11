@@ -12,6 +12,10 @@ PKG_SOURCE_URL:=http://libbsd.freedesktop.org/releases
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_INSTALL_DIR:=$(PKG_BUILD_DIR)/ipkg-install
 
+PUBLIC_SHARE_INC_DIR=$(TOPDIR)/toolchain-qca-qsdk/include
+LINUX_INC_DIR=$(LINUX_DIR)/include
+LINUX_ARCH_INC_DIR=$(LINUX_DIR)/arch/arm/include
+
 PKG_LICENSE:=BSD-4-Clause
 PKG_LICENSE_FILES:=COPYING
 
@@ -37,7 +41,8 @@ define Build/Prepare
 endef
 
 define Build/Compile
-	$(MAKE) -C $(PKG_BUILD_DIR)
+	$(MAKE) -C $(PKG_BUILD_DIR) $(TARGET_CONFIGURE_OPTS) \
+		CFLAGS="$(TARGET_CFLAGS) -I$(PUBLIC_SHARE_INC_DIR) -I$(LINUX_INC_DIR) -I$(LINUX_ARCH_INC_DIR)"
 endef
 
 define Build/Clean
@@ -68,7 +73,7 @@ define Package/libbsd/install
 		$(1)/usr/lib
 
 	$(CP) \
-		$(PKG_BUILD_DIR)/lib/libbsd.so* \
+		$(PKG_BUILD_DIR)/libbsd.so* \
 		$(1)/usr/lib/
 
 	( cd $(1)/usr/lib ; $(LN) libbsd.so.$(PKG_VERSION) libbsd.so )
