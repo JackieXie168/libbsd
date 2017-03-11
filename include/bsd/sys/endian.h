@@ -27,9 +27,17 @@
  */
 
 #ifdef LIBBSD_OVERLAY
+#if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
+#include_next <sys/_endian.h>
+#else
 #include_next <endian.h>
+#endif
+#else
+#if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
+#include <sys/_endian.h>
 #else
 #include <endian.h>
+#endif
 #endif
 
 #ifndef LIBBSD_SYS_ENDIAN_H

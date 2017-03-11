@@ -28,7 +28,9 @@
 #define LIBBSD_NLIST_H
 
 #include <sys/cdefs.h>
+#if !defined(darwin) && !defined(__APPLE__) && !defined(MACOSX)
 #include <a.out.h>
+#endif
 
 __BEGIN_DECLS
 extern int nlist(const char *filename, struct nlist *list);

@@ -23,15 +23,15 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+	 
+#ifndef LIBBSD_STRING_H
+#define LIBBSD_STRING_H
 
 #ifdef LIBBSD_OVERLAY
 #include_next <string.h>
 #else
 #include <string.h>
 #endif
-
-#ifndef LIBBSD_STRING_H
-#define LIBBSD_STRING_H
 
 #include <sys/cdefs.h>
 #include <sys/types.h>

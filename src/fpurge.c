@@ -30,10 +30,10 @@
 #include <stdio_ext.h>
 #endif
 
-#ifdef HAVE___FPURGE                   /* glibc >= 2.2, Haiku, Solaris >= 7 */
 int
 fpurge(FILE *fp)
 {
+#ifdef HAVE___FPURGE                   /* glibc >= 2.2, Haiku, Solaris >= 7 */
 	if (fp == NULL || fileno(fp) < 0) {
 		errno = EBADF;
 		return EOF;
@@ -42,14 +42,7 @@ fpurge(FILE *fp)
 	__fpurge(fp);
 
 	return 0;
-}
-#else
-#define fp_ fp
-//#error "Function fpurge() needs to be ported."
-//#elif HAVE_FPURGE                   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin 1.7 */
-int
-fpurge(FILE *fp)
-{
+#elif HAVE_FPURGE 				  /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin 1.7 */
 	if (fp == NULL || fileno(fp) < 0) {
 		errno = EBADF;
 		return EOF;
@@ -73,9 +66,27 @@ fpurge(FILE *fp)
       fp_->_w = 0;
 #endif
   return result;
-}
-//#endif
+#else
+#if defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+  fp_->_p = fp_->_bf._base;
+  fp_->_r = 0;
+  fp_->_w = ((fp_->_flags & (__SLBF | __SNBF | __SRD)) == 0 /* fully buffered 
+and not currently reading? */
+             ? fp_->_bf._size
+             : 0);
+  /* Avoid memory leak when there is an active ungetc buffer.  */
+  if (fp_ub._base != NULL)
+    {
+      if (fp_ub._base != fp_->_ubuf)
+        free (fp_ub._base);
+      fp_ub._base = NULL;
+    }
+  return 0;
+#else
+#error "Function fpurge() needs to be ported."
 #endif
+#endif
+}
 
 #ifdef TEST
 int

@@ -25,6 +25,9 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+	 
+#ifndef LIBBSD_STDLIB_H
+#define LIBBSD_STDLIB_H
 
 #ifdef LIBBSD_OVERLAY
 #include_next <stdlib.h>
@@ -38,9 +41,6 @@
 #else
 #include <bsd/libutil.h>
 #endif
-
-#ifndef LIBBSD_STDLIB_H
-#define LIBBSD_STDLIB_H
 
 #include <sys/cdefs.h>
 #include <sys/stat.h>
