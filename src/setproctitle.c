@@ -32,7 +32,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
+#if (defined __linux || defined(darwin) || defined(__APPLE__) || defined(MACOSX))
 #define __asm__(x)
 extern char **environ;
 #endif
@@ -285,6 +285,20 @@ setproctitle_impl(const char *fmt, ...)
 		*++nul = '\0';
 	}
 }
+#if !HAVE_SETPROCTITLE
+#if (defined __linux || defined(darwin) || defined(__APPLE__) || defined(MACOSX))
+void spt_init(int argc, char *argv[])
+{
+	char **envp = environ;
+	setproctitle_init(argc, argv, envp);
+}
+
+void setproctitle(const char *fmt, ...)
+{
+	setproctitle_impl(fmt);
+}
+#endif
+#endif
 __asm__(".symver setproctitle_impl,setproctitle@@LIBBSD_0.5");
 
 /* The original function introduced in 0.2 was a stub, it only got implemented

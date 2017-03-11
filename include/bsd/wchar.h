@@ -29,15 +29,15 @@
 #define LIBBSD_WCHAR_H_SKIP
 #endif
 
+#ifndef LIBBSD_WCHAR_H_SKIP
+#ifndef LIBBSD_WCHAR_H
+#define LIBBSD_WCHAR_H
+
 #ifdef LIBBSD_OVERLAY
 #include_next <wchar.h>
 #else
 #include <wchar.h>
 #endif
-
-#ifndef LIBBSD_WCHAR_H_SKIP
-#ifndef LIBBSD_WCHAR_H
-#define LIBBSD_WCHAR_H
 
 #include <stddef.h>
 #include <sys/cdefs.h>

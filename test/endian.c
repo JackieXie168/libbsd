@@ -25,7 +25,7 @@
  */
 
 #include <sys/endian.h>
-
+#include <stdint.h>
 #include <assert.h>
 #include <string.h>
 
