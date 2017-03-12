@@ -26,6 +26,8 @@
 
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
+
 #if HAVE___FPURGE
 #include <stdio_ext.h>
 #endif
