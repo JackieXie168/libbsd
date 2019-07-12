@@ -1,11 +1,8 @@
-/*
- * Copyright (c) 1989, 1993
+/*	$NetBSD: _strtoi.h,v 1.2 2015/01/18 17:55:22 christos Exp $	*/
+
+/*-
+ * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
- * (c) UNIX System Laboratories, Inc.
- * All or some portions of this file are derived from material licensed
- * to the University of California by American Telephone and Telegraph
- * Co. or Unix System Laboratories, Inc. and are reproduced herein with
- * the permission of UNIX System Laboratories, Inc.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,31 +28,70 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	@(#)time.h	8.3 (Berkeley) 1/21/94
+ * Original version ID:
+ * NetBSD: src/lib/libc/locale/_wcstoul.h,v 1.2 2003/08/07 16:43:03 agc Exp
+ *
+ * Created by Kamil Rytarowski, based on ID:
+ * NetBSD: src/common/lib/libc/stdlib/_strtoul.h,v 1.7 2013/05/17 12:55:56 joe…
  */
 
-/*
- * $FreeBSD$
- */
-
-#ifndef LIBBSD_TIMECONV_H
-#define LIBBSD_TIMECONV_H
-
-#ifdef LIBBSD_OVERLAY
 #include <sys/cdefs.h>
-#else
-#include <bsd/sys/cdefs.h>
-#endif
-#include <stdint.h>
-#include <time.h>
 
-time_t _time32_to_time(int32_t t32);
-int32_t _time_to_time32(time_t t);
-time_t _time64_to_time(int64_t t64);
-int64_t _time_to_time64(time_t t);
-long _time_to_long(time_t t);
-time_t _long_to_time(long tlong);
-int _time_to_int(time_t t);
-time_t _int_to_time(int tint);
+#include <stddef.h>
+#include <assert.h>
+#include <errno.h>
+#include <inttypes.h>
 
-#endif /* LIBBSD_TIMECONV_H */
+#define _DIAGASSERT(t)
+
+intmax_t
+strtoi(const char *__restrict nptr,
+       char **__restrict endptr, int base,
+       intmax_t lo, intmax_t hi, int *rstatus)
+{
+	int serrno;
+	intmax_t im;
+	char *ep;
+	int rep;
+
+	_DIAGASSERT(hi >= lo);
+
+	_DIAGASSERT(nptr != NULL);
+	/* endptr may be NULL */
+
+	if (endptr == NULL)
+		endptr = &ep;
+
+	if (rstatus == NULL)
+		rstatus = &rep;
+
+	serrno = errno;
+	errno = 0;
+
+	im = strtoimax(nptr, endptr, base);
+
+	*rstatus = errno;
+	errno = serrno;
+
+	if (*rstatus == 0) {
+		/* No digits were found */
+		if (nptr == *endptr)
+			*rstatus = ECANCELED;
+		/* There are further characters after number */
+		else if (**endptr != '\0')
+			*rstatus = ENOTSUP;
+	}
+
+	if (im < lo) {
+		if (*rstatus == 0)
+			*rstatus = ERANGE;
+		return lo;
+	}
+	if (im > hi) {
+		if (*rstatus == 0)
+			*rstatus = ERANGE;
+		return hi;
+	}
+
+	return im;
+}

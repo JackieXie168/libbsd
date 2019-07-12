@@ -139,3 +139,24 @@ LIBBSD_0.7 {
 LIBBSD_0.8 {
     explicit_bzero;
 } LIBBSD_0.7;
+
+LIBBSD_0.9 {
+    flopenat;
+
+    pidfile_fileno;
+
+    strtoi;
+    strtou;
+
+    nvis;
+    snvis;
+    stravis;
+    strenvisx;
+    strnunvisx;
+    strsenvisx;
+    strsnvis;
+    strsnvisx;
+    strsvis;
+    strsvisx;
+    svis;
+} LIBBSD_0.8;

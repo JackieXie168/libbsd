@@ -16,6 +16,7 @@ libbsd_la_included_sources = \
 	getentropy_linux.c \
 	getentropy_osx.c \
 	getentropy_solaris.c \
+	getentropy_win.c \
 	$(nil)
 
 EXTRA_DIST = \
@@ -68,9 +69,11 @@ endif
 libbsd_la_SOURCES = \
 	arc4random.c \
 	arc4random.h \
-	arc4random_unix.h \
+	arc4random_linux.h \
 	arc4random_openbsd.h \
 	arc4random_uniform.c \
+	arc4random_unix.h \
+	arc4random_win.h \
 	bsd_getopt.c \
 	chacha_private.h \
 	closefrom.c \
@@ -111,7 +114,9 @@ libbsd_la_SOURCES = \
 	stringlist.c \
 	strmode.c \
 	strnstr.c \
+	strtoi.c \
 	strtonum.c \
+	strtou.c \
 	timeconv.c \
 	unvis.c \
 	vis.c \

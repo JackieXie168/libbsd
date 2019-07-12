@@ -1,6 +1,5 @@
 /*
- * Copyright © 2006 Robert Millan
- * Copyright © 2010-2012 Guillem Jover <guillem@hadrons.org>
+ * Copyright © 2018 Guillem Jover <guillem@hadrons.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -25,52 +24,26 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- * Rejected in glibc
- * <https://sourceware.org/ml/libc-alpha/2006-03/msg00125.html>.
- */
-
-#include <errno.h>
-#include <string.h>
-#include <stdlib.h>
-
-#if defined(_WIN32) || defined(__WIN32__) || defined(__WINDOWS__)
-#define LIBBSD_IS_PATHNAME_SEPARATOR(c) ((c) == '/' || (c) == '\\')
+#ifdef LIBBSD_OVERLAY
+#include_next <inttypes.h>
 #else
-#define LIBBSD_IS_PATHNAME_SEPARATOR(c) ((c) == '/')
+#include <inttypes.h>
 #endif
 
-#ifdef HAVE___PROGNAME
-extern const char *__progname;
+#ifndef LIBBSD_INTTYPES_H
+#define LIBBSD_INTTYPES_H
+
+#ifdef LIBBSD_OVERLAY
+#include <sys/cdefs.h>
 #else
-static const char *__progname = NULL;
+#include <bsd/sys/cdefs.h>
 #endif
 
-const char *
-getprogname(void)
-{
-#if defined(HAVE_PROGRAM_INVOCATION_SHORT_NAME)
-	if (__progname == NULL)
-		__progname = program_invocation_short_name;
-#elif defined(HAVE_GETEXECNAME)
-	/* getexecname(3) returns an absolute pathname, normalize it. */
-	if (__progname == NULL)
-		setprogname(getexecname());
+__BEGIN_DECLS
+intmax_t strtoi(const char *__restrict nptr, char **__restrict endptr,
+                int base, intmax_t lo, intmax_t hi, int *rstatus);
+uintmax_t strtou(const char *__restrict nptr, char **__restrict endptr,
+                 int base, uintmax_t lo, uintmax_t hi, int *rstatus);
+__END_DECLS
+
 #endif
-
-	return __progname;
-}
-
-void
-setprogname(const char *progname)
-{
-	size_t i;
-
-	for (i = strlen(progname); i > 0; i--) {
-		if (LIBBSD_IS_PATHNAME_SEPARATOR(progname[i - 1])) {
-			__progname = progname + i;
-			return;
-		}
-	}
-	__progname = progname;
-}

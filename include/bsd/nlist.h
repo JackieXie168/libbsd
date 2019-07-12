@@ -27,7 +27,11 @@
 #ifndef LIBBSD_NLIST_H
 #define LIBBSD_NLIST_H
 
+#ifdef LIBBSD_OVERLAY
 #include <sys/cdefs.h>
+#else
+#include <bsd/sys/cdefs.h>
+#endif
 #if !defined(darwin) && !defined(__APPLE__) && !defined(MACOSX)
 #include <a.out.h>
 #endif

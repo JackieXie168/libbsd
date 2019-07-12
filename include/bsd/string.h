@@ -33,7 +33,11 @@
 #ifndef LIBBSD_STRING_H
 #define LIBBSD_STRING_H
 
+#ifdef LIBBSD_OVERLAY
 #include <sys/cdefs.h>
+#else
+#include <bsd/sys/cdefs.h>
+#endif
 #include <sys/types.h>
 
 __BEGIN_DECLS
@@ -47,7 +51,8 @@ void explicit_bzero(void *buf, size_t len);
 void strmode(mode_t mode, char *str);
 #endif
 
-#if defined(_GNU_SOURCE) && defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+#if !defined(__GLIBC__) || \
+    (defined(__GLIBC__) && (defined(__GLIBC_PREREQ) || !defined(_GNU_SOURCE)))
 #if !__GLIBC_PREREQ(2, 25)
 void explicit_bzero(void *buf, size_t len);
 #endif
