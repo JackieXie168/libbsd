@@ -42,10 +42,16 @@ size_t strlcat(char *dst, const char *src, size_t siz);
 char *strnstr(const char *str, const char *find, size_t str_len);
 #if defined(darwin) || defined(__APPLE__) || defined(MACOSX)
 void bsd_strmode(mode_t mode, char *str);
+void explicit_bzero(void *buf, size_t len);
 #else
 void strmode(mode_t mode, char *str);
 #endif
+
+#if defined(_GNU_SOURCE) && defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+#if !__GLIBC_PREREQ(2, 25)
 void explicit_bzero(void *buf, size_t len);
+#endif
+#endif
 __END_DECLS
 
 #endif
