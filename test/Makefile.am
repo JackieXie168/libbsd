@@ -47,13 +47,12 @@ check_PROGRAMS = \
 	strmode \
 	strnstr \
 	vis \
-	vis-openbsd \
 	$(nil)
 
 if IS_DARWIN
 check_PROGRAMS += $(nil)
 else
-check_PROGRAMS += nlist
+check_PROGRAMS += vis-openbsd nlist
 endif
 
 if HAVE_LIBTESTU01
