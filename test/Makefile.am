@@ -40,7 +40,6 @@ check_PROGRAMS = \
 	fparseln \
 	fpurge \
 	md5 \
-	nlist \
 	proctitle-init \
 	progname \
 	setmode \
@@ -48,6 +47,12 @@ check_PROGRAMS = \
 	strmode \
 	strnstr \
 	$(nil)
+
+if IS_DARWIN
+check_PROGRAMS += $(nil)
+else
+check_PROGRAMS += nlist
+endif
 
 if HAVE_LIBTESTU01
 arc4random_LDADD = $(LDADD) $(TESTU01_LIBS)

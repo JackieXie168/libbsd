@@ -151,7 +151,7 @@ os_is_macosx=false
 nonLinuxOS=false
 AC_SUBST(HostOS)
 case ${HostOS} in
-	darwin* | powerpc*-*-darwin* | freebsd* | netbsd* | openbsd*)
+	darwin* | powerpc*-*-darwin*)
 		os_is_macosx=true
 		nonLinuxOS=true
 		echo HostOS="$HostOS"
