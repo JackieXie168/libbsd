@@ -23,9 +23,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-		  
-#ifndef LIBBSD_GETOPT_H
-#define LIBBSD_GETOPT_H
 
 #ifdef LIBBSD_OVERLAY
 #include_next <getopt.h>
@@ -33,5 +30,4 @@
 #else
 #include <getopt.h>
 #include <bsd/unistd.h>
-#endif
 #endif

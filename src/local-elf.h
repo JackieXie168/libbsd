@@ -152,6 +152,18 @@
 #define ELF_TARG_CLASS	ELFCLASS64
 #define ELF_TARG_DATA	ELFDATA2MSB
 
+#elif defined(__riscv)
+
+#define ELF_TARG_MACH	EM_RISCV
+#if __riscv_xlen == 32
+#define ELF_TARG_CLASS	ELFCLASS32
+#elif __riscv_xlen == 64
+#define ELF_TARG_CLASS	ELFCLASS64
+#else
+#error Unsupported ELF class
+#endif
+#define ELF_TARG_DATA	ELFDATA2LSB
+
 #elif defined(__sparc__)
 
 #if defined(__arch64__)
@@ -184,6 +196,12 @@
 #define ELF_TARG_CLASS	ELFCLASS32
 #endif
 #define ELF_TARG_DATA	ELFDATA2MSB
+
+#elif defined(__tilegx__)
+
+#define ELF_TARG_MACH	EM_TILEGX
+#define ELF_TARG_CLASS	ELFCLASS64
+#define ELF_TARG_DATA	ELFDATA2LSB
 
 #elif defined(__or1k__)
 

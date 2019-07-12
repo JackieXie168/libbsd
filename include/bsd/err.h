@@ -24,15 +24,15 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-	 
-#ifndef LIBBSD_ERR_H
-#define LIBBSD_ERR_H
 
 #ifdef LIBBSD_OVERLAY
 #include_next <err.h>
 #else
 #include <err.h>
 #endif
+
+#ifndef LIBBSD_ERR_H
+#define LIBBSD_ERR_H
 
 #ifdef LIBBSD_OVERLAY
 #include <sys/cdefs.h>

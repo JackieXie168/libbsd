@@ -2,7 +2,7 @@
 
 AC_PREREQ([2.67])
 AC_INIT([libbsd], m4_esyscmd([./get-version]), [libbsd@lists.freedesktop.org])
-AC_CONFIG_SRCDIR([src/fgetln.c])
+AC_CONFIG_SRCDIR([src/strlcpy.c])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -13,7 +13,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])],
 
 LIBBSD_ABI_MAJOR=0
 LIBBSD_ABI_MINOR=8
-LIBBSD_ABI_PATCH=3
+LIBBSD_ABI_PATCH=4
 
 LIBBSD_ABI="$LIBBSD_ABI_MAJOR:$LIBBSD_ABI_MINOR:$LIBBSD_ABI_PATCH"
 AC_SUBST([LIBBSD_ABI])
@@ -44,27 +44,31 @@ AC_SUBST([TESTU01_LIBS])
 AM_CONDITIONAL([HAVE_LIBTESTU01],
                [test "x$ac_cv_lib_testu01_unif01_CreateExternGenBits" = "xyes"])
 
-# In old glibc versions (< 2.17) clock_gettime() is in librt.
 AS_CASE([$host_os],
-  [*-gnu], [
+  [*-gnu*], [
+    # In old glibc versions (< 2.17) clock_gettime() is in librt.
     saved_LIBS="$LIBS"
     AC_SEARCH_LIBS([clock_gettime], [rt], [CLOCK_GETTIME_LIBS="-lrt"])
     AC_SUBST([CLOCK_GETTIME_LIBS])
     LIBS="$saved_LIBS"
-  ]
+  ],
+  [*-musl*], [
+    # Upstream refuses to define this, we will do it ourselves then.
+    AC_DEFINE([__MUSL__], [1], [Define to 1 if we are building for musl])
+  ],
 )
 
 # Checks for header files.
 AC_CHECK_HEADERS([sys/ndir.h sys/dir.h ndir.h dirent.h stdio_ext.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_TYPE_UID_T
 AC_C_INLINE
 AC_C_TYPEOF
 AC_TYPE_INT64_T
 AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
+AC_TYPE_UID_T
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
 
@@ -131,9 +135,8 @@ AC_LINK_IFELSE(
 
 AC_MSG_CHECKING([for __progname])
 AC_LINK_IFELSE(
-	[AC_LANG_PROGRAM([[]],
-	                 [[extern char *__progname;
-	                   const char *p = __progname;]])],
+	[AC_LANG_PROGRAM([[extern char *__progname;]],
+	                 [[printf("%s", __progname);]])],
 	[AC_DEFINE([HAVE___PROGNAME], [1], [Define to 1 if you have __progname])
 	 AC_MSG_RESULT([yes])],
 	[AC_MSG_RESULT([no])])

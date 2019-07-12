@@ -24,15 +24,15 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-	 
-#ifndef LIBBSD_UNISTD_H
-#define LIBBSD_UNISTD_H
 
 #ifdef LIBBSD_OVERLAY
 #include_next <unistd.h>
 #else
 #include <unistd.h>
 #endif
+
+#ifndef LIBBSD_UNISTD_H
+#define LIBBSD_UNISTD_H
 
 #ifdef LIBBSD_OVERLAY
 #include <sys/cdefs.h>

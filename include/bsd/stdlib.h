@@ -25,9 +25,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-	 
-#ifndef LIBBSD_STDLIB_H
-#define LIBBSD_STDLIB_H
 
 #ifdef LIBBSD_OVERLAY
 #include_next <stdlib.h>
@@ -42,6 +39,9 @@
 #include <bsd/libutil.h>
 #endif
 
+#ifndef LIBBSD_STDLIB_H
+#define LIBBSD_STDLIB_H
+
 #include <sys/cdefs.h>
 #include <sys/stat.h>
 #include <stdint.h>
@@ -49,7 +49,7 @@
 __BEGIN_DECLS
 uint32_t arc4random(void);
 void arc4random_stir(void);
-void arc4random_addrandom(u_char *dat, int datlen);
+void arc4random_addrandom(unsigned char *dat, int datlen);
 void arc4random_buf(void *_buf, size_t n);
 uint32_t arc4random_uniform(uint32_t upper_bound);
 

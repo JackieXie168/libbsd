@@ -40,8 +40,13 @@ check_PROGRAMS = \
 	fparseln \
 	fpurge \
 	md5 \
+	nlist \
 	proctitle-init \
+	progname \
+	setmode \
+	strl \
 	strmode \
+	strnstr \
 	$(nil)
 
 if HAVE_LIBTESTU01

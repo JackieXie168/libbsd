@@ -23,14 +23,39 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-	 
+
+#ifndef __has_include
+#define __has_include 1
+#endif
+#ifndef __has_include_next
+#define __has_include_next 1
+#endif
+
+#ifdef LIBBSD_OVERLAY
+/*
+ * Some libc implementations do not have a <sys/cdefs.h>, in particular
+ * musl, try to handle this gracefully.
+ */
+#if __has_include_next(<sys/cdefs.h>)
+#include_next <sys/cdefs.h>
+#endif
+#else
+#if __has_include(<sys/cdefs.h>)
+#include <sys/cdefs.h>
+#endif
+#endif
+
 #ifndef LIBBSD_SYS_CDEFS_H
 #define LIBBSD_SYS_CDEFS_H
 
-#ifdef LIBBSD_OVERLAY
-#include_next <sys/cdefs.h>
+#ifndef __BEGIN_DECLS
+#ifdef __cplusplus
+#define __BEGIN_DECLS	extern "C" {
+#define __END_DECLS	}
 #else
-#include <sys/cdefs.h>
+#define __BEGIN_DECLS
+#define __END_DECLS
+#endif
 #endif
 
 /*
@@ -47,6 +72,14 @@
 #define LIBBSD_GCC_VERSION (__GNUC__ << 8 | __GNUC_MINOR__)
 #else
 #define LIBBSD_GCC_VERSION 0
+#endif
+
+#if LIBBSD_GCC_VERSION >= 0x0405
+#define LIBBSD_DEPRECATED(x) __attribute__((deprecated(x)))
+#elif LIBBSD_GCC_VERSION >= 0x0301
+#define LIBBSD_DEPRECATED(x) __attribute__((deprecated))
+#else
+#define LIBBSD_DEPRECATED(x)
 #endif
 
 #ifndef __dead2

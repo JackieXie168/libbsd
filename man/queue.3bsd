@@ -113,7 +113,10 @@
 .Nd implementations of singly-linked lists, singly-linked tail queues,
 lists and tail queues
 .Sh SYNOPSIS
-.In bsd/sys/queue.h
+.In sys/queue.h
+(See
+.Xr libbsd 7
+for include usage.)
 .\"
 .Fn SLIST_EMPTY "SLIST_HEAD *head"
 .Fn SLIST_ENTRY "TYPE"
@@ -1204,7 +1207,7 @@ while (n1 != NULL) {
 TAILQ_INIT(&head);
 .Ed
 .Sh SEE ALSO
-.Xr tree 3
+.Xr tree 3bsd
 .Sh HISTORY
 The
 .Nm queue

@@ -36,8 +36,8 @@
  * $FreeBSD: src/lib/libutil/libutil.h,v 1.47 2008/04/23 00:49:12 scf Exp $
  */
 
-#ifndef _LIBUTIL_H_
-#define _LIBUTIL_H_
+#ifndef LIBBSD_LIBUTIL_H
+#define LIBBSD_LIBUTIL_H
 
 #ifdef HAVE_FEATURES_H
 #include <features.h>
@@ -88,4 +88,4 @@ __END_DECLS
 #define FPARSELN_UNESCREST	0x08
 #define FPARSELN_UNESCALL	0x0f
 
-#endif /* !_LIBUTIL_H_ */
+#endif /* !LIBBSD_LIBUTIL_H */

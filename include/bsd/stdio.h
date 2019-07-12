@@ -23,14 +23,10 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-	 
+
 #if defined(__need_FILE) || defined(__need___FILE)
 #define LIBBSD_STDIO_H_SKIP
 #endif
-	 
-#ifndef LIBBSD_STDIO_H_SKIP
-#ifndef LIBBSD_STDIO_H
-#define LIBBSD_STDIO_H
 
 #ifdef LIBBSD_OVERLAY
 #include_next <stdio.h>
@@ -38,7 +34,15 @@
 #include <stdio.h>
 #endif
 
+#ifndef LIBBSD_STDIO_H_SKIP
+#ifndef LIBBSD_STDIO_H
+#define LIBBSD_STDIO_H
+
+#ifdef LIBBSD_OVERLAY
 #include <sys/cdefs.h>
+#else
+#include <bsd/sys/cdefs.h>
+#endif
 #include <sys/types.h>
 
 __BEGIN_DECLS
@@ -48,9 +52,9 @@ const char *fmtcheck(const char *, const char *);
 /* XXX: The function requires cooperation from the system libc to store the
  * line buffer in the FILE struct itself. */
 char *fgetln(FILE *fp, size_t *lenp)
-	__attribute__((deprecated("This functions cannot be safely ported, "
-	                          "use getline(3) instead, as it is supported "
-	                          "by GNU and POSIX.1-2008.")));
+	LIBBSD_DEPRECATED("This functions cannot be safely ported, "
+	                  "use getline(3) instead, as it is supported "
+	                  "by GNU and POSIX.1-2008.");
 #else
 #define fp_ fp
 #define fp_ub fp_->_ub
