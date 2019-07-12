@@ -46,6 +46,8 @@ check_PROGRAMS = \
 	strl \
 	strmode \
 	strnstr \
+	vis \
+	vis-openbsd \
 	$(nil)
 
 if IS_DARWIN
