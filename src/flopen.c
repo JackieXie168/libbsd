@@ -27,6 +27,11 @@
  * SUCH DAMAGE.
  */
 
+#if defined(darwin) || defined(__FreeBSD__) || defined(__APPLE__) || defined(MACOSX)
+#ifndef AT_FDCWD
+#define AT_FDCWD    -2
+#endif
+#endif
 #include <sys/cdefs.h>
 #include <sys/file.h>
 #include <sys/stat.h>

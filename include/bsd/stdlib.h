@@ -76,6 +76,7 @@ void *reallocf(void *ptr, size_t size);
 #if !__GLIBC_PREREQ(2, 26)
 void *reallocarray(void *ptr, size_t nmemb, size_t size);
 #endif
+#endif
 
 long long strtonum(const char *nptr, long long minval, long long maxval,
                    const char **errstr);

@@ -30,9 +30,7 @@
 #include <stdio.h>
 #include <wchar.h>
 
-#if !defined(darwin) && !defined(__APPLE__) && !defined(MACOSX)
 #include "local-link.h"
-#endif
 
 struct filewbuf {
 	FILE *fp;
@@ -93,7 +91,4 @@ fgetwln(FILE *stream, size_t *lenp)
 libbsd_link_warning(fgetwln,
                     "This function cannot be safely ported, use fgetwc(3) "
                     "instead, as it is supported by C99 and POSIX.1-2001.")
-#endif
-#else
-#error "Function fgetwln() needs to be ported."
 #endif

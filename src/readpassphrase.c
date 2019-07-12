@@ -35,6 +35,12 @@
 #ifndef TCSASOFT
 #define TCSASOFT 0
 #endif
+#if defined(darwin) || defined(__FreeBSD__) || defined(__APPLE__) || defined(MACOSX)
+#include <signal.h>
+#ifndef _NSIG
+# define _NSIG NSIG
+#endif
+#endif
 
 static volatile sig_atomic_t signo[_NSIG];
 
